@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VolcanoFinder.API.DbContexts;
+using VolcanoFinder.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddSwaggerGen();
 
 //Warning! Move ConnectionString to safe location!
 builder.Services.AddDbContext<VolcanoFinderContext>(dbContextOptions => dbContextOptions.UseSqlite(builder.Configuration["ConnectionStrings:VolcanoFinderDbConnectionString"]));
+
+builder.Services.AddScoped<IVolcanoFinderRepository, VolcanoFinderRepository>();
 
 var app = builder.Build();
 
