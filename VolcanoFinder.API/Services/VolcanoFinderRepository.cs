@@ -13,8 +13,11 @@ namespace VolcanoFinder.API.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<IEnumerable<Region>> GetRegionsAsync()
+        public async Task<IEnumerable<Region>> GetRegionsAsync(bool includeVolcanoes)
         {
+            if (includeVolcanoes)
+                return await _context.Regions.Include(x => x.Volcanoes).OrderBy(x => x.Name).ToListAsync();
+
             return await _context.Regions.OrderBy(x => x.Name).ToListAsync();
         }
 
@@ -28,7 +31,7 @@ namespace VolcanoFinder.API.Services
 
         public async Task<IEnumerable<Volcano>> GetVolcanoesFromRegionAsync(int regionId)
         {
-            return await _context.Volcanoes.Where(x => x.RegionId == regionId).ToListAsync();
+            return await _context.Volcanoes.Where(x => x.RegionId == regionId).OrderBy(x => x.Name).ToListAsync();
         }
 
         public async Task<Volcano?> GetVolcanoFromRegionAsync(int regionId, int volcanoId)
