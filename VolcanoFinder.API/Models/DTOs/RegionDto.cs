@@ -8,7 +8,7 @@ namespace VolcanoFinder.API.Models.DTOs
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         public int NumberOfVolcanoes
         {
@@ -18,7 +18,7 @@ namespace VolcanoFinder.API.Models.DTOs
             }
         }
 
-        public ICollection<Volcano> Volcanoes { get; set; } = new List<Volcano>();
+        public ICollection<VolcanoDto> Volcanoes { get; set; } = new List<VolcanoDto>();
 
     }
 }
