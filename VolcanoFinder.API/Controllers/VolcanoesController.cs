@@ -66,7 +66,7 @@ namespace VolcanoFinder.API.Controllers
             volcanoDto);
         }
 
-        [HttpPut("volcanoId")]
+        [HttpPut("{volcanoId}")]
         public async Task<IActionResult> UpdateVolcano(int regionId, int volcanoId, VolcanoForUpdateDto volcanoForUpdateDto)
         {
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
@@ -108,6 +108,22 @@ namespace VolcanoFinder.API.Controllers
             _mapper.Map(volcanoDtoToPatch, volcanoEntity);
 
             await _volcanoFinderRepository.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpDelete("volcanoId")]
+        public async Task<IActionResult> DeleteVolcano(int regionId, int volcanoId)
+        {
+            if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
+                return NotFound();
+
+            var volcanoEntity = await _volcanoFinderRepository.GetVolcanoFromRegionAsync(regionId, volcanoId);
+
+            if (volcanoEntity is null)
+                return NotFound();
+
+            _volcanoFinderRepository.DeleteVolcano(volcanoEntity);
 
             return NoContent();
         }
