@@ -7,8 +7,9 @@ using VolcanoFinder.API.Services;
 
 namespace VolcanoFinder.API.Controllers
 {
-    [Route("api/regions")]
+    [Route("api/v:{version:apiVersion}/regions")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class RegionsController : ControllerBase
     {
         private readonly IVolcanoFinderRepository _volcanoFinderRepository;
