@@ -26,7 +26,7 @@ namespace VolcanoFinder.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetVolcanoesFromRegion(int regionId, bool? active, string? searchQuery, int pageNumber = 1, int pageSize = 10)
+        public async Task<ActionResult<IEnumerable<VolcanoDto>>> GetVolcanoesFromRegion(int regionId, bool? active, string? searchQuery, int pageNumber = 1, int pageSize = 10)
         {
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
                 return NotFound();
@@ -39,7 +39,7 @@ namespace VolcanoFinder.API.Controllers
         }
 
         [HttpGet("{volcanoId}", Name = "GetVolcanoFromRegion")]
-        public async Task<IActionResult> GetVolcanoFromRegion(int regionId, int volcanoId)
+        public async Task<ActionResult<VolcanoDto>> GetVolcanoFromRegion(int regionId, int volcanoId)
         {
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
                 return NotFound();
@@ -53,7 +53,7 @@ namespace VolcanoFinder.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddVolcanoToRegion(int regionId, VolcanoForCreationDto volcanoForCreationDto)
+        public async Task<ActionResult<VolcanoDto>> AddVolcanoToRegion(int regionId, VolcanoForCreationDto volcanoForCreationDto)
         {
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
                 return NotFound();
