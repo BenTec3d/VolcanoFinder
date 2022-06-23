@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using VolcanoFinder.API.Models.DTOs;
 using VolcanoFinder.API.Models.Entities;
@@ -51,11 +52,11 @@ namespace VolcanoFinder.API.Controllers
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
                 return NotFound();
 
-            var volcano = _mapper.Map<Volcano>(volcanoForCreationDto);
+            var volcanoEntity = _mapper.Map<Volcano>(volcanoForCreationDto);
 
-            await _volcanoFinderRepository.AddVolcanoToRegionAsync(regionId, volcano);
+            await _volcanoFinderRepository.AddVolcanoToRegionAsync(regionId, volcanoEntity);
 
-            var volcanoDto = _mapper.Map<VolcanoDto>(volcano);
+            var volcanoDto = _mapper.Map<VolcanoDto>(volcanoEntity);
 
             return CreatedAtRoute("GetVolcanoFromRegion", new
             {
@@ -71,16 +72,30 @@ namespace VolcanoFinder.API.Controllers
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
                 return NotFound();
 
-            var volcanoToChange = await _volcanoFinderRepository.GetVolcanoFromRegionAsync(regionId, volcanoId);
+            var volcanoEntity = await _volcanoFinderRepository.GetVolcanoFromRegionAsync(regionId, volcanoId);
 
-            if (volcanoToChange is null)
+            if (volcanoEntity is null)
                 return NotFound();
 
-            _mapper.Map(volcanoForUpdateDto, volcanoToChange);
+            _mapper.Map(volcanoForUpdateDto, volcanoEntity);
 
             await _volcanoFinderRepository.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpPatch("volcanoId")]
+        public async Task<IActionResult> PartiallyUpdateVolcano(int regionId, int volcanoId, JsonPatchDocument<VolcanoForUpdateDto> patchDocument)
+        {
+            if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
+                return NotFound();
+
+            var volcanoEntity = await _volcanoFinderRepository.GetVolcanoFromRegionAsync(regionId, volcanoId);
+
+            if (volcanoEntity is null)
+                return NotFound();
+
+           var volcanoToPatch = _mapper.Map<VolcanoForUpdateDto>(volcanoEntity);
         }
 
     }
