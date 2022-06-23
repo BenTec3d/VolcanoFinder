@@ -33,7 +33,7 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="searchQuery">Returns results containing the search query in their Name, Description or CountryAlpha2</param>
         /// <param name="pageNumber">The number of the page to get</param>
         /// <param name="pageSize">The size of the page to get (max. value is 20)</param>
-        /// <returns>ActionResult<IEnumerable<VolcanoDto>></returns>
+        /// <returns>An ActionResult of IEnumerable of VolcanoDto</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<VolcanoDto>>> GetVolcanoesFromRegion(int regionId, bool? active, string? searchQuery, int pageNumber = 1, int pageSize = 10)
         {
@@ -52,7 +52,7 @@ namespace VolcanoFinder.API.Controllers
         /// </summary>
         /// <param name="regionId">The id of the region to get the volcano from</param>
         /// <param name="volcanoId">The id of the volcano to get</param>
-        /// <returns>ActionResult<VolcanoDto></returns>
+        /// <returns>An ActionResult of VolcanoDto</returns>
         [HttpGet("{volcanoId}", Name = "GetVolcanoFromRegion")]
         public async Task<ActionResult<VolcanoDto>> GetVolcanoFromRegion(int regionId, int volcanoId)
         {
@@ -72,7 +72,7 @@ namespace VolcanoFinder.API.Controllers
         /// </summary>
         /// <param name="regionId">The id of the region to add the volcano to</param>
         /// <param name="volcanoForCreationDto">The volcanoForCreationDto to add</param>
-        /// <returns>ActionResult<VolcanoDto></returns>
+        /// <returns>An ActionResult of VolcanoDto></returns>
         [HttpPost]
         public async Task<ActionResult<VolcanoDto>> AddVolcanoToRegion(int regionId, VolcanoForCreationDto volcanoForCreationDto)
         {
