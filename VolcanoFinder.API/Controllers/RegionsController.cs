@@ -29,7 +29,9 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="pageNumber">The number of the page to get</param>
         /// <param name="pageSize">The size of the page to get (max. value is 20)</param>
         /// <returns>An IActionResult</returns>
+        /// <response code="200">Returns the requested regions</response>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetRegions(bool includeVolcanoes = false, int pageNumber = 1 , int pageSize = 10)
         {
             if(pageSize > maxPageSize)
@@ -51,7 +53,13 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="regionId">The id of the region to get</param>
         /// <param name="includeVolcanoes">Whether or not to include the volcanos</param>
         /// <returns>IActionResult</returns>
+        /// <response code="200">Returns the requested region</response>
+        /// <response code="400">regionId required</response>
+        /// <response code="404">regionId incorrect</response>
         [HttpGet("{regionId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetRegion(int regionId, bool includeVolcanoes = false)
         {
             var regionEntity = await _volcanoFinderRepository.GetRegionAsync(regionId, includeVolcanoes);

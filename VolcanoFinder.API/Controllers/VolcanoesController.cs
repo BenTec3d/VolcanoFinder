@@ -34,7 +34,13 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="pageNumber">The number of the page to get</param>
         /// <param name="pageSize">The size of the page to get (max. value is 20)</param>
         /// <returns>An ActionResult of IEnumerable of VolcanoDto</returns>
+        /// <response code="200">Returns the requested volcanoes</response>
+        /// <response code="400">regionId required</response>
+        /// <response code="404">regionId incorrect</response>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<VolcanoDto>>> GetVolcanoesFromRegion(int regionId, bool? active, string? searchQuery, int pageNumber = 1, int pageSize = 10)
         {
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
@@ -47,13 +53,20 @@ namespace VolcanoFinder.API.Controllers
             return Ok(_mapper.Map<IEnumerable<VolcanoDto>>(volcanoEntities));
         }
 
+
         /// <summary>
         /// Gets the volcano with the specified volcanoId from the region with the specified regionId
         /// </summary>
         /// <param name="regionId">The id of the region to get the volcano from</param>
         /// <param name="volcanoId">The id of the volcano to get</param>
         /// <returns>An ActionResult of VolcanoDto</returns>
+        /// <response code="200">Returns the requested volcano</response>
+        /// <response code="400">regionId and volcanoId required</response>
+        /// <response code="404">regionId or volcanoId incorrect</response>
         [HttpGet("{volcanoId}", Name = "GetVolcanoFromRegion")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<VolcanoDto>> GetVolcanoFromRegion(int regionId, int volcanoId)
         {
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
@@ -73,7 +86,13 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="regionId">The id of the region to add the volcano to</param>
         /// <param name="volcanoForCreationDto">The volcanoForCreationDto to add</param>
         /// <returns>An ActionResult of VolcanoDto></returns>
+        /// <response code="201">Added the provided volcano</response>
+        /// <response code="400">regionId required</response>
+        /// <response code="404">regionId incorrect</response>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<VolcanoDto>> AddVolcanoToRegion(int regionId, VolcanoForCreationDto volcanoForCreationDto)
         {
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
@@ -100,7 +119,13 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="volcanoId">The id of the volcano to update</param>
         /// <param name="volcanoForUpdateDto">The volcanoForCreationDto to update the volcano with</param>
         /// <returns>IActionResult</returns>
+        /// <response code="204">Updated the volcano</response>
+        /// <response code="400">regionId, volcanoId and volcanoForUpdateDto required</response>
+        /// <response code="404">regionId or volcanoId incorrect</response>
         [HttpPut("{volcanoId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateVolcano(int regionId, int volcanoId, VolcanoForUpdateDto volcanoForUpdateDto)
         {
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
@@ -125,7 +150,13 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="volcanoId">The id of the volcano to be patched</param>
         /// <param name="patchDocument">The patchDocument to patch the volcano with</param>
         /// <returns>IActionResult</returns>
+        /// <response code="204">Patched the volcano</response>
+        /// <response code="400">regionId, volcanoId and volcanoForUpdateDto required</response>
+        /// <response code="404">regionId or volcanoId incorrect</response>
         [HttpPatch("{volcanoId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PartiallyUpdateVolcano(int regionId, int volcanoId, JsonPatchDocument<VolcanoForUpdateDto> patchDocument)
         {
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
@@ -159,7 +190,13 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="regionId">The id of the region containing the volcano to be deleted</param>
         /// <param name="volcanoId">The id of the volcano to be deleted</param>
         /// <returns>IActionResult</returns>
+        /// <response code="204">Deleted the volcano</response>
+        /// <response code="400">regionId and volcanoId required</response>
+        /// <response code="404">regionId or volcanoId incorrect</response>
         [HttpDelete("{volcanoId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteVolcano(int regionId, int volcanoId)
         {
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
