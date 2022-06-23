@@ -17,5 +17,6 @@ namespace VolcanoFinder.API.Models.DTOs
         public string? Description { get; set; }
 
         public DateTime? LastEruption { get; set; }
+        public bool? Active { get; set; }
     }
 }
