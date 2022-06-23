@@ -39,6 +39,14 @@ namespace VolcanoFinder.API.Services
             return await _context.Volcanoes.Where(x => x.RegionId == regionId).OrderBy(x => x.Name).ToListAsync();
         }
 
+        public async Task<IEnumerable<Volcano>> GetVolcanoesFromRegionAsync(int regionId, bool? active)
+        {
+            if (active is null)
+                return await GetVolcanoesFromRegionAsync(regionId);
+
+            return await _context.Volcanoes.Where(x => x.RegionId == regionId && x.Active == Convert.ToBoolean(active)).OrderBy(x => x.Name).ToListAsync();
+        }
+
         public async Task<Volcano?> GetVolcanoFromRegionAsync(int regionId, int volcanoId)
         {
             return await _context.Volcanoes.Where(x => x.RegionId == regionId && x.Id == volcanoId).FirstOrDefaultAsync();
