@@ -84,7 +84,7 @@ namespace VolcanoFinder.API.Controllers
             return NoContent();
         }
 
-        [HttpPatch("volcanoId")]
+        [HttpPatch("{volcanoId}")]
         public async Task<IActionResult> PartiallyUpdateVolcano(int regionId, int volcanoId, JsonPatchDocument<VolcanoForUpdateDto> patchDocument)
         {
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
@@ -112,7 +112,7 @@ namespace VolcanoFinder.API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("volcanoId")]
+        [HttpDelete("{volcanoId}")]
         public async Task<IActionResult> DeleteVolcano(int regionId, int volcanoId)
         {
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
