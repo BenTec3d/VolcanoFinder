@@ -59,5 +59,9 @@ namespace VolcanoFinder.API.Services
             return (await _context.SaveChangesAsync() > 0);
         }
 
+        public void DeleteVolcano(Volcano volcano)
+        {
+            _context.Volcanoes.Remove(volcano);
+        }
     }
 }

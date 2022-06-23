@@ -11,5 +11,6 @@ namespace VolcanoFinder.API.Services
         Task<Volcano?> GetVolcanoFromRegionAsync(int regionId, int volcanoId);
         Task AddVolcanoToRegionAsync(int regionId, Volcano volcano);
         Task<bool> SaveChangesAsync();
+        void DeleteVolcano(Volcano volcano);
     }
 }
