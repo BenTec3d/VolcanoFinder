@@ -83,20 +83,5 @@ namespace VolcanoFinder.API.Controllers
 
             return NoContent();
         }
-
-        [HttpPatch("volcanoId")]
-        public async Task<IActionResult> PartiallyUpdateVolcano(int regionId, int volcanoId, JsonPatchDocument<VolcanoForUpdateDto> patchDocument)
-        {
-            if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
-                return NotFound();
-
-            var volcanoEntity = await _volcanoFinderRepository.GetVolcanoFromRegionAsync(regionId, volcanoId);
-
-            if (volcanoEntity is null)
-                return NotFound();
-
-           var volcanoToPatch = _mapper.Map<VolcanoForUpdateDto>(volcanoEntity);
-        }
-
     }
 }
