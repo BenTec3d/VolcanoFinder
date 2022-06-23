@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VolcanoFinder.API</name>
+    </assembly>
+    <members>
+        <member name="M:VolcanoFinder.API.Controllers.RegionsController.GetRegions(System.Boolean,System.Int32,System.Int32)">
+            <summary>
+            Get all regions
+            </summary>
+            <param name="includeVolcanoes">Whether or not to include the volcanos</param>
+            <param name="pageNumber">The number of the page to get</param>
+            <param name="pageSize">The size of the page to get (max. value is 20)</param>
+            <returns>An IActionResult</returns>
+        </member>
+        <member name="M:VolcanoFinder.API.Controllers.RegionsController.GetRegion(System.Int32,System.Boolean)">
+            <summary>
+            Get the region with the specified regionId
+            </summary>
+            <param name="regionId">The id of the region to get</param>
+            <param name="includeVolcanoes">Whether or not to include the volcanos</param>
+            <returns>IActionResult</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:VolcanoFinder.API.Controllers.VolcanoesController.GetVolcanoesFromRegion(System.Int32,System.Nullable{System.Boolean},System.String,System.Int32,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:VolcanoFinder.API.Controllers.VolcanoesController.GetVolcanoFromRegion(System.Int32,System.Int32)" -->
+        <!-- Badly formed XML comment ignored for member "M:VolcanoFinder.API.Controllers.VolcanoesController.AddVolcanoToRegion(System.Int32,VolcanoFinder.API.Models.DTOs.VolcanoForCreationDto)" -->
+        <member name="M:VolcanoFinder.API.Controllers.VolcanoesController.UpdateVolcano(System.Int32,System.Int32,VolcanoFinder.API.Models.DTOs.VolcanoForUpdateDto)">
+            <summary>
+             Updates the volcano with the specified volcanoId in the region with the specified regionId with the provided volcanoForUpdateDto
+            </summary>
+            <param name="regionId">The id of the region containing the volcano to be updated</param>
+            <param name="volcanoId">The id of the volcano to update</param>
+            <param name="volcanoForUpdateDto">The volcanoForCreationDto to update the volcano with</param>
+            <returns>IActionResult</returns>
+        </member>
+        <member name="M:VolcanoFinder.API.Controllers.VolcanoesController.PartiallyUpdateVolcano(System.Int32,System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{VolcanoFinder.API.Models.DTOs.VolcanoForUpdateDto})">
+            <summary>
+            Patches the volcano with the specified volcanoId in the region with the specified regionId with the provided patchDocument
+            </summary>
+            <param name="regionId">The id of the region containing the volcano to be patched</param>
+            <param name="volcanoId">The id of the volcano to be patched</param>
+            <param name="patchDocument">The patchDocument to patch the volcano with</param>
+            <returns>IActionResult</returns>
+        </member>
+        <member name="M:VolcanoFinder.API.Controllers.VolcanoesController.DeleteVolcano(System.Int32,System.Int32)">
+            <summary>
+            Deletes the volcano with the specified volcanoId in the region with the specified regionId
+            </summary>
+            <param name="regionId">The id of the region containing the volcano to be deleted</param>
+            <param name="volcanoId">The id of the volcano to be deleted</param>
+            <returns>IActionResult</returns>
+        </member>
+        <member name="T:VolcanoFinder.API.Models.DTOs.RegionDto">
+            <summary>
+            A DTO of a region with the volcanoes
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.RegionDto.Id">
+            <summary>
+            The id of the region
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.RegionDto.Name">
+            <summary>
+            The name of the region
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.RegionDto.NumberOfVolcanoes">
+            <summary>
+            The number of volcanoes in the region
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.RegionDto.Volcanoes">
+            <summary>
+            A collection of volcanoes in that region
+            </summary>
+        </member>
+        <member name="T:VolcanoFinder.API.Models.DTOs.RegionWithoutVolcanoesDto">
+            <summary>
+            A DTO of a region without the volcanoes
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.RegionWithoutVolcanoesDto.Id">
+            <summary>
+            The id of the region
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.RegionWithoutVolcanoesDto.Name">
+            <summary>
+            The name of the region
+            </summary>
+        </member>
+        <member name="T:VolcanoFinder.API.Models.DTOs.VolcanoDto">
+            <summary>
+            A DTO of a volcano
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoDto.Id">
+            <summary>
+            The id of the volcano
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoDto.Name">
+            <summary>
+            The name of the volcano
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoDto.Picture">
+            <summary>
+            A link to an online resource of a picture of the volcano
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoDto.CountryAlpha2">
+            <summary>
+            The ISO 3166-1 alpha-2 of the country the volcano is in
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoDto.Description">
+            <summary>
+            A description of the volcano (max. 200 chars)
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoDto.LastEruption">
+            <summary>
+            The date of the last eruption
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoDto.Active">
+            <summary>
+            Whether the volcano is active or not
+            </summary>
+        </member>
+        <member name="T:VolcanoFinder.API.Models.DTOs.VolcanoForCreationDto">
+            <summary>
+            A DTO for creating a volcano
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoForCreationDto.Name">
+            <summary>
+            The name of the volcano
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoForCreationDto.Picture">
+            <summary>
+            A link to an online resource of a picture of the volcano
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoForCreationDto.CountryAlpha2">
+            <summary>
+            The ISO 3166-1 alpha-2 of the country the volcano is in
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoForCreationDto.Description">
+            <summary>
+            A description of the volcano (max. 200 chars)
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoForCreationDto.LastEruption">
+            <summary>
+            The date of the last eruption
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoForCreationDto.Active">
+            <summary>
+            Whether the volcano is active or not
+            </summary>
+        </member>
+        <member name="T:VolcanoFinder.API.Models.DTOs.VolcanoForUpdateDto">
+            <summary>
+            A DTO for updating a volcano
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoForUpdateDto.Name">
+            <summary>
+            The name of the volcano
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoForUpdateDto.Picture">
+            <summary>
+            A link to an online resource of a picture of the volcano
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoForUpdateDto.CountryAlpha2">
+            <summary>
+            The ISO 3166-1 alpha-2 of the country the volcano is in
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoForUpdateDto.Description">
+            <summary>
+            A description of the volcano (max. 200 chars)
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoForUpdateDto.LastEruption">
+            <summary>
+            The date of the last eruption
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.VolcanoForUpdateDto.Active">
+            <summary>
+            Whether the volcano is active or not
+            </summary>
+        </member>
+    </members>
+</doc>
