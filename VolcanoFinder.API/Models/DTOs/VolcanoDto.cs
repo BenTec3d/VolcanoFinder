@@ -8,11 +8,11 @@ namespace VolcanoFinder.API.Models.DTOs
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public string Picture { get; set; }
+        public string Picture { get; set; } = string.Empty;
 
-        public string CountryAlpha2 { get; set; }
+        public string? CountryAlpha2 { get; set; }
 
         public string? Description { get; set; }
 
