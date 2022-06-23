@@ -83,5 +83,33 @@ namespace VolcanoFinder.API.Controllers
 
             return NoContent();
         }
+
+        [HttpPatch("volcanoId")]
+        public async Task<IActionResult> PartiallyUpdateVolcano(int regionId, int volcanoId, JsonPatchDocument<VolcanoForUpdateDto> patchDocument)
+        {
+            if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
+                return NotFound();
+
+            var volcanoEntity = await _volcanoFinderRepository.GetVolcanoFromRegionAsync(regionId, volcanoId);
+
+            if (volcanoEntity is null)
+                return NotFound();
+
+            var volcanoDtoToPatch = _mapper.Map<VolcanoForUpdateDto>(volcanoEntity);
+
+            patchDocument.ApplyTo(volcanoDtoToPatch, ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            if (!TryValidateModel(volcanoDtoToPatch))
+                return BadRequest();
+
+            _mapper.Map(volcanoDtoToPatch, volcanoEntity);
+
+            await _volcanoFinderRepository.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }
