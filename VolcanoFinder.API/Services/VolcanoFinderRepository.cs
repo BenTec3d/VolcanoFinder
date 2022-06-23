@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VolcanoFinder.API.DbContexts;
 using VolcanoFinder.API.Models.Entities;
+using VolcanoFinder.API.Models.Metadata;
 
 namespace VolcanoFinder.API.Services
 {
@@ -13,12 +14,22 @@ namespace VolcanoFinder.API.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<IEnumerable<Region>> GetRegionsAsync(bool includeVolcanoes)
+        public async Task<(IEnumerable<Region>, PaginationMetadata)> GetRegionsAsync(bool includeVolcanoes, int pageNumber, int pageSize)
         {
-            if (includeVolcanoes)
-                return await _context.Regions.Include(x => x.Volcanoes).OrderBy(x => x.Name).ToListAsync();
+            var collection = _context.Regions as IQueryable<Region>;
 
-            return await _context.Regions.OrderBy(x => x.Name).ToListAsync();
+            if (includeVolcanoes)
+                collection = collection.Include(x => x.Volcanoes);
+
+            var totalItemCount = await collection.CountAsync();
+            var paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
+
+            var collectionToReturn = await collection.OrderBy(x => x.Name)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (collectionToReturn, paginationMetadata);
         }
 
         public async Task<Region?> GetRegionAsync(int regionId, bool includeVolcanoes)
@@ -34,16 +45,8 @@ namespace VolcanoFinder.API.Services
             return await _context.Regions.AnyAsync(x => x.Id == regionId);
         }
 
-        public async Task<IEnumerable<Volcano>> GetVolcanoesFromRegionAsync(int regionId)
+        public async Task<(IEnumerable<Volcano>, PaginationMetadata)> GetVolcanoesFromRegionAsync(int regionId, bool? active, string? searchQuery, int pageNumber, int pageSize)
         {
-            return await _context.Volcanoes.Where(x => x.RegionId == regionId).OrderBy(x => x.Name).ToListAsync();
-        }
-
-        public async Task<IEnumerable<Volcano>> GetVolcanoesFromRegionAsync(int regionId, bool? active, string? searchQuery)
-        {
-            if (active is null && string.IsNullOrWhiteSpace(searchQuery))
-                return await GetVolcanoesFromRegionAsync(regionId);
-
             var collection = _context.Volcanoes as IQueryable<Volcano>;
 
             collection = collection.Where(x => x.RegionId == regionId);
@@ -59,7 +62,15 @@ namespace VolcanoFinder.API.Services
                 || (x.CountryAlpha2 != null && x.CountryAlpha2.ToLower().Contains(searchQuery)));
             }
 
-            return await collection.OrderBy(x => x.Name).ToListAsync();
+            var totalItemCount = await collection.CountAsync();
+            var paginationMetadata = new PaginationMetadata(totalItemCount, pageSize, pageNumber);
+
+            var collectionToReturn = await collection.OrderBy(x => x.Name)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (collectionToReturn, paginationMetadata);
         }
 
         public async Task<Volcano?> GetVolcanoFromRegionAsync(int regionId, int volcanoId)

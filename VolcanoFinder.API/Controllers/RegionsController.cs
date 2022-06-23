@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using VolcanoFinder.API.Models.DTOs;
 using VolcanoFinder.API.Services;
 
@@ -12,6 +13,7 @@ namespace VolcanoFinder.API.Controllers
     {
         private readonly IVolcanoFinderRepository _volcanoFinderRepository;
         private readonly IMapper _mapper;
+        const int maxPageSize = 20;
 
         public RegionsController(IVolcanoFinderRepository volcanoFinderRepository, IMapper mapper)
         {
@@ -20,9 +22,14 @@ namespace VolcanoFinder.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetRegions(bool includeVolcanoes = false)
+        public async Task<IActionResult> GetRegions(bool includeVolcanoes = false, int pageNumber = 1 , int pageSize = 10)
         {
-            var regionEntities = await _volcanoFinderRepository.GetRegionsAsync(includeVolcanoes);
+            if(pageSize > maxPageSize)
+                pageSize = maxPageSize;
+
+            var (regionEntities, paginationMetadata) = await _volcanoFinderRepository.GetRegionsAsync(includeVolcanoes, pageNumber, pageSize);
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
 
             if(includeVolcanoes)
                 return Ok(_mapper.Map<IEnumerable<RegionDto>>(regionEntities));
