@@ -16,9 +16,8 @@ namespace VolcanoFinder.API.Models.Entities
         [Required]
         public string Picture { get; set; }
 
-        [Required]
         [MaxLength(2)]
-        public string CountryAlpha2 { get; set; }
+        public string? CountryAlpha2 { get; set; }
 
         [MaxLength(200)]
         public string? Description { get; set; }
@@ -29,15 +28,14 @@ namespace VolcanoFinder.API.Models.Entities
 
         [Required]
         [ForeignKey("RegionId")]
-        public Region Region { get; set; }
+        public Region? Region { get; set; }
         public int RegionId { get; set; }
 
 
-        public Volcano(string name, string picture, int regionId)
+        public Volcano(string name, string picture)
         {
             Name = name;
             Picture = picture;
-            RegionId = regionId;
         }
 
     }
