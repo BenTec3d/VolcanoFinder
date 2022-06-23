@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VolcanoFinder.API.Models.DTOs;
+using VolcanoFinder.API.Models.Entities;
 using VolcanoFinder.API.Services;
 
 namespace VolcanoFinder.API.Controllers
@@ -30,7 +31,7 @@ namespace VolcanoFinder.API.Controllers
             return Ok(_mapper.Map<IEnumerable<VolcanoDto>>(volcanoEntities));
         }
 
-        [HttpGet("{volcanoId}")]
+        [HttpGet("{volcanoId}", Name = "GetVolcanoFromRegion")]
         public async Task<IActionResult> GetVolcanoFromRegion(int regionId, int volcanoId)
         {
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
@@ -38,10 +39,30 @@ namespace VolcanoFinder.API.Controllers
 
             var volcanoEntity = await _volcanoFinderRepository.GetVolcanoFromRegionAsync(regionId, volcanoId);
 
-            if(volcanoEntity is null)
+            if (volcanoEntity is null)
                 return NotFound();
 
             return Ok(_mapper.Map<VolcanoDto>(volcanoEntity));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddVolcanoToRegion(int regionId, VolcanoForCreationDto volcanoForCreationDto)
+        {
+            if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
+                return NotFound();
+
+            var volcano = _mapper.Map<Volcano>(volcanoForCreationDto);
+
+            await _volcanoFinderRepository.AddVolcanoToRegionAsync(regionId, volcano);
+
+            var volcanoDto = _mapper.Map<VolcanoDto>(volcano);
+
+            return CreatedAtRoute("GetVolcanoFromRegion", new
+            {
+                regionId = regionId,
+                volcanoId = volcanoDto.Id
+            },
+            volcanoDto);
         }
     }
 }

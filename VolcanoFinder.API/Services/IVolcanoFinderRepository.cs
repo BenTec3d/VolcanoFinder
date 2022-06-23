@@ -9,5 +9,7 @@ namespace VolcanoFinder.API.Services
         Task<bool> RegionExistsAsync(int regionId);
         Task<IEnumerable<Volcano>> GetVolcanoesFromRegionAsync(int regionId);
         Task<Volcano?> GetVolcanoFromRegionAsync(int regionId, int volcanoId);
+        Task AddVolcanoToRegionAsync(int regionId, Volcano volcano);
+        Task<bool> SaveChangesAsync();
     }
 }

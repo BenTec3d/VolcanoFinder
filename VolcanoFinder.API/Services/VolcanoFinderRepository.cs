@@ -44,5 +44,20 @@ namespace VolcanoFinder.API.Services
             return await _context.Volcanoes.Where(x => x.RegionId == regionId && x.Id == volcanoId).FirstOrDefaultAsync();
         }
 
+        public async Task AddVolcanoToRegionAsync(int regionId, Volcano volcano)
+        {
+            var region = await GetRegionAsync(regionId, false);
+
+            if(region is not null)
+                region.Volcanoes.Add(volcano);
+            
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync() > 0);
+        }
+
     }
 }
