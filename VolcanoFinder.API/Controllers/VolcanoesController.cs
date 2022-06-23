@@ -125,6 +125,8 @@ namespace VolcanoFinder.API.Controllers
 
             _volcanoFinderRepository.DeleteVolcano(volcanoEntity);
 
+            await _volcanoFinderRepository.SaveChangesAsync();
+
             return NoContent();
         }
     }
