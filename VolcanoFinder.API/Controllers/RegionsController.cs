@@ -22,6 +22,13 @@ namespace VolcanoFinder.API.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        /// <summary>
+        /// Get all regions
+        /// </summary>
+        /// <param name="includeVolcanoes">Whether or not to include the volcanos</param>
+        /// <param name="pageNumber">The number of the page to get</param>
+        /// <param name="pageSize">The size of the page to get (max. value is 20)</param>
+        /// <returns>An IActionResult</returns>
         [HttpGet]
         public async Task<IActionResult> GetRegions(bool includeVolcanoes = false, int pageNumber = 1 , int pageSize = 10)
         {
@@ -38,6 +45,12 @@ namespace VolcanoFinder.API.Controllers
             return Ok(_mapper.Map<IEnumerable<RegionWithoutVolcanoesDto>>(regionEntities));
         }
 
+        /// <summary>
+        /// Get the region with the specified regionId
+        /// </summary>
+        /// <param name="regionId">The id of the region to get</param>
+        /// <param name="includeVolcanoes">Whether or not to include the volcanos</param>
+        /// <returns>IActionResult</returns>
         [HttpGet("{regionId}")]
         public async Task<IActionResult> GetRegion(int regionId, bool includeVolcanoes = false)
         {
