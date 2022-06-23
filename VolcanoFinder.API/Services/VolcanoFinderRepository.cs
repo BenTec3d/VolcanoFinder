@@ -33,18 +33,33 @@ namespace VolcanoFinder.API.Services
         {
             return await _context.Regions.AnyAsync(x => x.Id == regionId);
         }
-        
+
         public async Task<IEnumerable<Volcano>> GetVolcanoesFromRegionAsync(int regionId)
         {
             return await _context.Volcanoes.Where(x => x.RegionId == regionId).OrderBy(x => x.Name).ToListAsync();
         }
 
-        public async Task<IEnumerable<Volcano>> GetVolcanoesFromRegionAsync(int regionId, bool? active)
+        public async Task<IEnumerable<Volcano>> GetVolcanoesFromRegionAsync(int regionId, bool? active, string? searchQuery)
         {
-            if (active is null)
+            if (active is null && string.IsNullOrWhiteSpace(searchQuery))
                 return await GetVolcanoesFromRegionAsync(regionId);
 
-            return await _context.Volcanoes.Where(x => x.RegionId == regionId && x.Active == Convert.ToBoolean(active)).OrderBy(x => x.Name).ToListAsync();
+            var collection = _context.Volcanoes as IQueryable<Volcano>;
+
+            collection = collection.Where(x => x.RegionId == regionId);
+
+            if (active != null)
+                collection = collection.Where(x => x.Active == active);
+
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                searchQuery = searchQuery.Trim().ToLower();
+                collection = collection.Where(x => x.Name.ToLower().Contains(searchQuery)
+                || (x.Description != null && x.Description.ToLower().Contains(searchQuery))
+                || (x.CountryAlpha2 != null && x.CountryAlpha2.ToLower().Contains(searchQuery)));
+            }
+
+            return await collection.OrderBy(x => x.Name).ToListAsync();
         }
 
         public async Task<Volcano?> GetVolcanoFromRegionAsync(int regionId, int volcanoId)
@@ -56,9 +71,9 @@ namespace VolcanoFinder.API.Services
         {
             var region = await GetRegionAsync(regionId, false);
 
-            if(region is not null)
+            if (region is not null)
                 region.Volcanoes.Add(volcano);
-            
+
             await _context.SaveChangesAsync();
         }
 

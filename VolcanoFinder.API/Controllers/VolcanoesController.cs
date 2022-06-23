@@ -22,12 +22,12 @@ namespace VolcanoFinder.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetVolcanoesFromRegion(int regionId, bool? active)
+        public async Task<IActionResult> GetVolcanoesFromRegion(int regionId, bool? active, string? searchQuery)
         {
             if (!await _volcanoFinderRepository.RegionExistsAsync(regionId))
                 return NotFound();
 
-            var volcanoEntities = await _volcanoFinderRepository.GetVolcanoesFromRegionAsync(regionId, active);
+            var volcanoEntities = await _volcanoFinderRepository.GetVolcanoesFromRegionAsync(regionId, active, searchQuery);
 
             return Ok(_mapper.Map<IEnumerable<VolcanoDto>>(volcanoEntities));
         }
