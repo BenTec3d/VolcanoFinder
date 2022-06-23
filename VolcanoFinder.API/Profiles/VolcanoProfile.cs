@@ -9,6 +9,7 @@ namespace VolcanoFinder.API.Profiles
         public VolcanoProfile()
         {
             CreateMap<Volcano, VolcanoDto>();
+            CreateMap<Volcano, VolcanoForUpdateDto>();
             CreateMap<VolcanoForCreationDto, Volcano>();
             CreateMap<VolcanoForUpdateDto, Volcano>();
         }
