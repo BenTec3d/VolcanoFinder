@@ -97,5 +97,10 @@ namespace VolcanoFinder.API.Services
         {
             _context.Volcanoes.Remove(volcano);
         }
+
+        public async Task<IEnumerable<User>> GetUsersAsync(string name)
+        {
+            return await _context.Users.Where(x => x.Name == name).ToListAsync();
+        }
     }
 }
