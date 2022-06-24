@@ -4,6 +4,16 @@
         <name>VolcanoFinder.API</name>
     </assembly>
     <members>
+        <member name="M:VolcanoFinder.API.Controllers.AuthenticationController.Authenticate(VolcanoFinder.API.Models.DTOs.UserDto)">
+            <summary>
+            Authenticates a user and returns a JSON Web Token
+            </summary>
+            <param name="userDto">The userDTO for the authentication</param>
+            <returns>Action Result of string containing a JSON Web Token</returns>
+            <response code="200">Returns a JSON Web Token</response>
+            <response code="400">A userDTO is required</response>
+            <response code="401">No user found for provided userDTO</response>
+        </member>
         <member name="M:VolcanoFinder.API.Controllers.RegionsController.GetRegions(System.Boolean,System.Int32,System.Int32)">
             <summary>
             Get all regions
@@ -22,8 +32,8 @@
             <param name="includeVolcanoes">Whether or not to include the volcanos</param>
             <returns>IActionResult</returns>
             <response code="200">Returns the requested region</response>
-            <response code="400">regionId required</response>
-            <response code="404">regionId incorrect</response>
+            <response code="400">A regionId is required</response>
+            <response code="404">The regionId is incorrect</response>
         </member>
         <member name="M:VolcanoFinder.API.Controllers.VolcanoesController.GetVolcanoesFromRegion(System.Int32,System.Nullable{System.Boolean},System.String,System.Int32,System.Int32)">
             <summary>
@@ -36,8 +46,8 @@
             <param name="pageSize">The size of the page to get (max. value is 20)</param>
             <returns>An ActionResult of IEnumerable of VolcanoDto</returns>
             <response code="200">Returns the requested volcanoes</response>
-            <response code="400">regionId required</response>
-            <response code="404">regionId incorrect</response>
+            <response code="400">A regionId is required</response>
+            <response code="404">The regionId is incorrect</response>
         </member>
         <member name="M:VolcanoFinder.API.Controllers.VolcanoesController.GetVolcanoFromRegion(System.Int32,System.Int32)">
             <summary>
@@ -47,8 +57,8 @@
             <param name="volcanoId">The id of the volcano to get</param>
             <returns>An ActionResult of VolcanoDto</returns>
             <response code="200">Returns the requested volcano</response>
-            <response code="400">regionId and volcanoId required</response>
-            <response code="404">regionId or volcanoId incorrect</response>
+            <response code="400">A regionId and volcanoId are required</response>
+            <response code="404">The regionId or volcanoId are incorrect</response>
         </member>
         <member name="M:VolcanoFinder.API.Controllers.VolcanoesController.AddVolcanoToRegion(System.Int32,VolcanoFinder.API.Models.DTOs.VolcanoForCreationDto)">
             <summary>
@@ -58,8 +68,8 @@
             <param name="volcanoForCreationDto">The volcanoForCreationDto to add</param>
             <returns>An ActionResult of VolcanoDto></returns>
             <response code="201">Added the provided volcano</response>
-            <response code="400">regionId required</response>
-            <response code="404">regionId incorrect</response>
+            <response code="400">A regionId and volcanoForCreationDto are required</response>
+            <response code="404">The regionId is incorrect</response>
         </member>
         <member name="M:VolcanoFinder.API.Controllers.VolcanoesController.UpdateVolcano(System.Int32,System.Int32,VolcanoFinder.API.Models.DTOs.VolcanoForUpdateDto)">
             <summary>
@@ -70,8 +80,8 @@
             <param name="volcanoForUpdateDto">The volcanoForCreationDto to update the volcano with</param>
             <returns>IActionResult</returns>
             <response code="204">Updated the volcano</response>
-            <response code="400">regionId, volcanoId and volcanoForUpdateDto required</response>
-            <response code="404">regionId or volcanoId incorrect</response>
+            <response code="400">A regionId, volcanoId and volcanoForUpdateDto are required</response>
+            <response code="404">The regionId or volcanoId are incorrect</response>
         </member>
         <member name="M:VolcanoFinder.API.Controllers.VolcanoesController.PartiallyUpdateVolcano(System.Int32,System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{VolcanoFinder.API.Models.DTOs.VolcanoForUpdateDto})">
             <summary>
@@ -82,8 +92,8 @@
             <param name="patchDocument">The patchDocument to patch the volcano with</param>
             <returns>IActionResult</returns>
             <response code="204">Patched the volcano</response>
-            <response code="400">regionId, volcanoId and volcanoForUpdateDto required</response>
-            <response code="404">regionId or volcanoId incorrect</response>
+            <response code="400">A regionId, volcanoId and volcanoForUpdateDto are required</response>
+            <response code="404">The regionId or volcanoId are incorrect</response>
         </member>
         <member name="M:VolcanoFinder.API.Controllers.VolcanoesController.DeleteVolcano(System.Int32,System.Int32)">
             <summary>
@@ -93,8 +103,8 @@
             <param name="volcanoId">The id of the volcano to be deleted</param>
             <returns>IActionResult</returns>
             <response code="204">Deleted the volcano</response>
-            <response code="400">regionId and volcanoId required</response>
-            <response code="404">regionId or volcanoId incorrect</response>
+            <response code="400">A regionId and volcanoId are required</response>
+            <response code="404">The regionId or volcanoId are incorrect</response>
         </member>
         <member name="T:VolcanoFinder.API.Models.DTOs.RegionDto">
             <summary>
