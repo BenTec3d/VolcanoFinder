@@ -35,8 +35,8 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="pageSize">The size of the page to get (max. value is 20)</param>
         /// <returns>An ActionResult of IEnumerable of VolcanoDto</returns>
         /// <response code="200">Returns the requested volcanoes</response>
-        /// <response code="400">regionId required</response>
-        /// <response code="404">regionId incorrect</response>
+        /// <response code="400">A regionId is required</response>
+        /// <response code="404">The regionId is incorrect</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -61,8 +61,8 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="volcanoId">The id of the volcano to get</param>
         /// <returns>An ActionResult of VolcanoDto</returns>
         /// <response code="200">Returns the requested volcano</response>
-        /// <response code="400">regionId and volcanoId required</response>
-        /// <response code="404">regionId or volcanoId incorrect</response>
+        /// <response code="400">A regionId and volcanoId are required</response>
+        /// <response code="404">The regionId or volcanoId are incorrect</response>
         [HttpGet("{volcanoId}", Name = "GetVolcanoFromRegion")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -87,8 +87,8 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="volcanoForCreationDto">The volcanoForCreationDto to add</param>
         /// <returns>An ActionResult of VolcanoDto></returns>
         /// <response code="201">Added the provided volcano</response>
-        /// <response code="400">regionId required</response>
-        /// <response code="404">regionId incorrect</response>
+        /// <response code="400">A regionId and volcanoForCreationDto are required</response>
+        /// <response code="404">The regionId is incorrect</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -120,8 +120,8 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="volcanoForUpdateDto">The volcanoForCreationDto to update the volcano with</param>
         /// <returns>IActionResult</returns>
         /// <response code="204">Updated the volcano</response>
-        /// <response code="400">regionId, volcanoId and volcanoForUpdateDto required</response>
-        /// <response code="404">regionId or volcanoId incorrect</response>
+        /// <response code="400">A regionId, volcanoId and volcanoForUpdateDto are required</response>
+        /// <response code="404">The regionId or volcanoId are incorrect</response>
         [HttpPut("{volcanoId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -151,8 +151,8 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="patchDocument">The patchDocument to patch the volcano with</param>
         /// <returns>IActionResult</returns>
         /// <response code="204">Patched the volcano</response>
-        /// <response code="400">regionId, volcanoId and volcanoForUpdateDto required</response>
-        /// <response code="404">regionId or volcanoId incorrect</response>
+        /// <response code="400">A regionId, volcanoId and volcanoForUpdateDto are required</response>
+        /// <response code="404">The regionId or volcanoId are incorrect</response>
         [HttpPatch("{volcanoId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -191,8 +191,8 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="volcanoId">The id of the volcano to be deleted</param>
         /// <returns>IActionResult</returns>
         /// <response code="204">Deleted the volcano</response>
-        /// <response code="400">regionId and volcanoId required</response>
-        /// <response code="404">regionId or volcanoId incorrect</response>
+        /// <response code="400">A regionId and volcanoId are required</response>
+        /// <response code="404">The regionId or volcanoId are incorrect</response>
         [HttpDelete("{volcanoId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

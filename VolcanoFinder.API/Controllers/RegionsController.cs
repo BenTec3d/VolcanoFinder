@@ -54,8 +54,8 @@ namespace VolcanoFinder.API.Controllers
         /// <param name="includeVolcanoes">Whether or not to include the volcanos</param>
         /// <returns>IActionResult</returns>
         /// <response code="200">Returns the requested region</response>
-        /// <response code="400">regionId required</response>
-        /// <response code="404">regionId incorrect</response>
+        /// <response code="400">A regionId is required</response>
+        /// <response code="404">The regionId is incorrect</response>
         [HttpGet("{regionId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

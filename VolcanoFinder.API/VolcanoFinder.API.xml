@@ -136,6 +136,21 @@
             The name of the region
             </summary>
         </member>
+        <member name="T:VolcanoFinder.API.Models.DTOs.UserDto">
+            <summary>
+            A user DTO for authentication
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.UserDto.Name">
+            <summary>
+            The name of the user
+            </summary>
+        </member>
+        <member name="P:VolcanoFinder.API.Models.DTOs.UserDto.Password">
+            <summary>
+            The password of the user
+            </summary>
+        </member>
         <member name="T:VolcanoFinder.API.Models.DTOs.VolcanoDto">
             <summary>
             A DTO of a volcano
