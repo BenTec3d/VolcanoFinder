@@ -27,6 +27,7 @@ builder.Services.AddSwaggerGen(setupAction =>
 builder.Services.AddDbContext<VolcanoFinderContext>(dbContextOptions => dbContextOptions.UseSqlite(builder.Configuration["ConnectionStrings:VolcanoFinderDbConnectionString"]));
 
 builder.Services.AddScoped<IVolcanoFinderRepository, VolcanoFinderRepository>();
+builder.Services.AddSingleton<IPasswordHashService, PasswordHashService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
