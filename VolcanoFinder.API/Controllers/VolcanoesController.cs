@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -90,6 +91,7 @@ namespace VolcanoFinder.API.Controllers
         /// <response code="400">A regionId and volcanoForCreationDto are required</response>
         /// <response code="404">The regionId is incorrect</response>
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -123,6 +125,7 @@ namespace VolcanoFinder.API.Controllers
         /// <response code="400">A regionId, volcanoId and volcanoForUpdateDto are required</response>
         /// <response code="404">The regionId or volcanoId are incorrect</response>
         [HttpPut("{volcanoId}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -154,6 +157,7 @@ namespace VolcanoFinder.API.Controllers
         /// <response code="400">A regionId, volcanoId and volcanoForUpdateDto are required</response>
         /// <response code="404">The regionId or volcanoId are incorrect</response>
         [HttpPatch("{volcanoId}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -194,6 +198,7 @@ namespace VolcanoFinder.API.Controllers
         /// <response code="400">A regionId and volcanoId are required</response>
         /// <response code="404">The regionId or volcanoId are incorrect</response>
         [HttpDelete("{volcanoId}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
