@@ -1,16 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VolcanoFinder.API.Models.Entities;
+using VolcanoFinder.API.Services;
 
 namespace VolcanoFinder.API.DbContexts
 {
     public class VolcanoFinderContext : DbContext
     {
+        private readonly IPasswordHashService _passwordHashService;
+
         public DbSet<Region> Regions { get; set; } = null!;
         public DbSet<Volcano> Volcanoes { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
 
-        public VolcanoFinderContext(DbContextOptions<VolcanoFinderContext> options) : base(options)
+        public VolcanoFinderContext(IPasswordHashService passwordHashService, DbContextOptions<VolcanoFinderContext> options) : base(options)
         {
-
+            _passwordHashService = passwordHashService ?? throw new ArgumentNullException(nameof(passwordHashService));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -72,6 +76,17 @@ namespace VolcanoFinder.API.DbContexts
                     CountryAlpha2 = "TZ",
                     Active = false,
                     RegionId = 1
+                }
+            );
+
+            byte[] passwordHash;
+            byte[] passwordSalt;
+            _passwordHashService.CreatePasswordHash("password", out passwordHash, out passwordSalt);
+
+            modelBuilder.Entity<User>().HasData(
+                new User("username", passwordHash, passwordSalt)
+                {
+                    Id = 1
                 }
             );
 
