@@ -10,37 +10,40 @@ namespace VolcanoFinder.Tests
 {
     public class PasswordHashServiceTests
     {
+        private PasswordHashService _passwordHashService;
+        private string _password;
+        private string _incorrectPassword;
+        byte[]? _passwordHash;
+        byte[]? _passwordSalt;
+
+        public PasswordHashServiceTests()
+        {
+            _passwordHashService = new PasswordHashService();
+            _password = "TestPassword";
+            _incorrectPassword = "IncorrectPassword";
+            _passwordHash = null;
+            _passwordSalt = null;
+        }
+
         [Fact]
         public void CreatePasswordHash_CreateHashAndSalt_HashAndSaltNotNull()
         {
-            // Arrange
-            var passwordHashService = new PasswordHashService();
-            var password = "TestPassword";
-            byte[]? passwordHash = null;
-            byte[]? passwordSalt = null;
-
             // Act
-            passwordHashService.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            _passwordHashService.CreatePasswordHash(_password, out _passwordHash, out _passwordSalt);
 
             //Assert
-            Assert.NotNull(passwordHash);
-            Assert.NotNull(passwordSalt);
+            Assert.NotNull(_passwordHash);
+            Assert.NotNull(_passwordSalt);
         }
 
         [Fact]
         public void VerifyPasswordHash_VerifyCorrectPassword_ResultMustBeTrue()
         {
             // Arrange
-            var passwordHashService = new PasswordHashService();
-
-            var password = "TestPassword";
-            byte[] passwordHash;
-            byte[] passwordSalt;
-
-            passwordHashService.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            _passwordHashService.CreatePasswordHash(_password, out _passwordHash, out _passwordSalt);
 
             // Act
-            var resultTrue = passwordHashService.VerifyPasswordHash(password, passwordHash, passwordSalt);
+            var resultTrue = _passwordHashService.VerifyPasswordHash(_password, _passwordHash, _passwordSalt);
 
             //Assert
             Assert.True(resultTrue);
@@ -50,17 +53,10 @@ namespace VolcanoFinder.Tests
         public void VerifyPasswordHash_VerifyWrongPassword_ResultMustBeFalse()
         {
             // Arrange
-            var passwordHashService = new PasswordHashService();
-
-            var password = "TestPassword";
-            var wrongPassword = "WrongPassword";
-            byte[] passwordHash;
-            byte[] passwordSalt;
-
-            passwordHashService.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            _passwordHashService.CreatePasswordHash(_password, out _passwordHash, out _passwordSalt);
 
             // Act
-            var result = passwordHashService.VerifyPasswordHash(wrongPassword, passwordHash, passwordSalt);
+            var result = _passwordHashService.VerifyPasswordHash(_incorrectPassword, _passwordHash, _passwordSalt);
 
             //Assert
             Assert.False(result);
