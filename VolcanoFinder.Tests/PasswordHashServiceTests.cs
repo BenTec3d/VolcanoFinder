@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -13,23 +14,19 @@ namespace VolcanoFinder.Tests
         private PasswordHashService _passwordHashService;
         private string _password;
         private string _incorrectPassword;
-        byte[]? _passwordHash;
-        byte[]? _passwordSalt;
 
         public PasswordHashServiceTests()
         {
             _passwordHashService = new PasswordHashService();
             _password = "TestPassword";
             _incorrectPassword = "IncorrectPassword";
-            _passwordHash = null;
-            _passwordSalt = null;
         }
 
         [Fact]
         public void CreatePasswordHash_CreateHashAndSalt_HashAndSaltNotNull()
         {
             // Act
-            _passwordHashService.CreatePasswordHash(_password, out _passwordHash, out _passwordSalt);
+            _passwordHashService.CreatePasswordHash(_password, out byte[]? _passwordHash, out byte[]? _passwordSalt);
 
             //Assert
             Assert.NotNull(_passwordHash);
@@ -40,20 +37,34 @@ namespace VolcanoFinder.Tests
         public void VerifyPasswordHash_VerifyCorrectPassword_ResultMustBeTrue()
         {
             // Arrange
-            _passwordHashService.CreatePasswordHash(_password, out _passwordHash, out _passwordSalt);
+            byte[] _passwordHash;
+            byte[] _passwordSalt;
+
+            using (var hmac = new HMACSHA512())
+            {
+                _passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(_password));
+                _passwordSalt = hmac.Key;
+            }
 
             // Act
-            var resultTrue = _passwordHashService.VerifyPasswordHash(_password, _passwordHash, _passwordSalt);
+            var result = _passwordHashService.VerifyPasswordHash(_password, _passwordHash, _passwordSalt);
 
             //Assert
-            Assert.True(resultTrue);
+            Assert.True(result);
         }
 
         [Fact]
         public void VerifyPasswordHash_VerifyWrongPassword_ResultMustBeFalse()
         {
             // Arrange
-            _passwordHashService.CreatePasswordHash(_password, out _passwordHash, out _passwordSalt);
+            byte[] _passwordHash;
+            byte[] _passwordSalt;
+
+            using (var hmac = new HMACSHA512())
+            {
+                _passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(_password));
+                _passwordSalt = hmac.Key;
+            }
 
             // Act
             var result = _passwordHashService.VerifyPasswordHash(_incorrectPassword, _passwordHash, _passwordSalt);
