@@ -39,8 +39,7 @@ namespace VolcanoFinder.API.Controllers
 
             var (regionEntities, paginationMetadata) = await _volcanoFinderRepository.GetRegionsAsync(includeVolcanoes, pageNumber, pageSize);
 
-            //Commented out because it makes the unit tests fail
-            //Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(paginationMetadata));
 
             if(includeVolcanoes)
                 return Ok(_mapper.Map<IEnumerable<RegionDto>>(regionEntities));
