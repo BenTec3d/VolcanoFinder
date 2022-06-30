@@ -79,13 +79,10 @@ namespace VolcanoFinder.Tests
             });
             var mapper = new Mapper(mapperConfiguration);
 
-            var httpContext = new Mock<HttpContext>();
-            httpContext.Setup(x => x.Response.Headers).Returns(new Mock<IHeaderDictionary>().Object);
-
             _regionsController = new RegionsController(_volcanoFinderRepositoryMock.Object, mapper);
             _regionsController.ControllerContext = new ControllerContext()
             {
-                HttpContext = httpContext.Object
+                HttpContext = new DefaultHttpContext()
             };
         }
 
